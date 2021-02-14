@@ -1,7 +1,9 @@
 from valorant_api import SyncValorantApi, AsyncValorantApi
 import asyncio
+import time
 
 language = "ru-RU"
+
 
 def synctest():
     api = SyncValorantApi(language=language)
@@ -67,5 +69,10 @@ async def Asynctest():
     print("Async Test Completed")
 
 
+st = time.time()
 synctest()
-asyncio.run(Asynctest())
+print("[Sync] Took", time.time()-st)
+
+st = time.time()
+asyncio.get_event_loop().run_until_complete(Asynctest())
+print("[Async] Took", time.time()-st)

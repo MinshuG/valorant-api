@@ -5,12 +5,15 @@ import json
 import atexit
 import asyncio
 
+from requests import session
+
 from .exceptions import *
 
 
 class SyncClient:
     headers: dict = {}
     params: dict = {}
+    session: session
 
     def __init__(self, headers=None, params=None) -> None:
         if params is None:
@@ -21,9 +24,10 @@ class SyncClient:
             self.headers = {}
         else:
             self.headers = headers
+            self.session = requests.Session()
 
     def get(self, url: str):
-        response = requests.get(url, params=self.params, headers=self.headers)
+        response = self.session.get(url, params=self.params, headers=self.headers)
 
         try:
             data = response.json()
