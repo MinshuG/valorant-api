@@ -1,6 +1,6 @@
 class Endpoints:
     BASE = "https://valorant-api.com/v1/"
-    Agents = BASE + "Agents"
+    Agents = BASE + "agents"
     Buddies = BASE + "buddies"
     Bundles = BASE + "bundles"
     Content_Tiers = BASE + "contenttiers"
