@@ -1,28 +1,11 @@
 import requests
-from .exceptions import *
-import json
+from aiohttp import ClientSession
 import aiohttp
+import json
+import atexit
+import asyncio
 
-
-# class MainClient:
-#     headers: dict = {}
-#     run_async: bool
-#     get = None
-
-#     def __init__(self, headers: dict, run_async: bool = False) -> None:
-#         self.headers = headers
-#         self.run_async = run_async
-
-
-#     def GetSync(self,endpoint: str,params: dict = None):
-#         client = SyncClient
-#         client.headers = self.headers
-#         return client.get(endpoint, endpoint, params)
-
-#     async def GetAsync(self,endpoint: str,params: dict=None):
-#         client = AsyncClient
-#         client.headers = self.headers
-#         return await client.get(endpoint, endpoint, params)
+from .exceptions import *
 
 
 class SyncClient:
@@ -60,6 +43,7 @@ class SyncClient:
 class AsyncClient:
     headers: dict = {}
     params: dict = {}
+    session: ClientSession
 
     def __init__(self, headers=None, params=None) -> None:
         if params is None:
@@ -70,21 +54,27 @@ class AsyncClient:
             self.headers = {}
         else:
             self.headers = headers
+        self.session = aiohttp.ClientSession()
+        atexit.register(self.close)
+
+    def close(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.session.close())
 
     async def get(self, url: str):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, params=self.params, headers=self.headers) as response:
-                try:
-                    data = await response.json()
-                except aiohttp.ContentTypeError:
-                    data = {'error': response.text}
+        # async with aiohttp.ClientSession() as session:
+        async with self.session.get(url, params=self.params, headers=self.headers) as response:
+            try:
+                data = await response.json()
+            except aiohttp.ContentTypeError:
+                data = {'error': response.text}
 
-                if response.status == 200:
-                    return data["data"]
-                elif response.status == 400:
-                    raise InvalidOrMissingParameter(data["error"])
-                elif response.status == 404:
-                    raise NotFound(data["error"])
-                else:
-                    raise Exception(
-                        f'{data.get("error", "An error unknown occurred")}, status code {response.status}')
+            if response.status == 200:
+                return data["data"]
+            elif response.status == 400:
+                raise InvalidOrMissingParameter(data["error"])
+            elif response.status == 404:
+                raise NotFound(data["error"])
+            else:
+                raise Exception(
+                    f'{data.get("error", "An error unknown occurred")}, status code {response.status}')
