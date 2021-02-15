@@ -1,5 +1,7 @@
 from typing import List
 
+from . import utils
+from .agents import Agent
 from .buddies import Buddy
 from .bundles import Bundle
 from .contenttiers import ContentTier
@@ -7,7 +9,6 @@ from .currencies import Currency
 from .endpoints import Endpoints
 from .gamemodes import GameMode, Equippable
 from .httpclient import AsyncClient, SyncClient
-from .agents import Agent
 from .maps import Map
 from .playercards import PlayerCard
 from .playertitles import PlayerTitle

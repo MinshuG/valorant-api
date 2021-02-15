@@ -1,5 +1,4 @@
 from typing import List, Optional
-from uuid import UUID
 
 
 class Ability:
@@ -63,5 +62,5 @@ class Agent:
         self.is_playable_character = data.get("isPlayableCharacter")
         self.is_available_for_test = data.get("isAvailableForTest")
         self.role = data.get("role")
-        self.abilities = [Ability(x) for x in data.get("abilities") ] if data.get("abilities") is not None else None
+        self.abilities = [Ability(x) for x in data.get("abilities")] if data.get("abilities") is not None else None
         self.raw_data = data

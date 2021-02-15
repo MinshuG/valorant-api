@@ -1,10 +1,10 @@
+import asyncio
+import atexit
+import json
+
+import aiohttp
 import requests
 from aiohttp import ClientSession
-import aiohttp
-import json
-import atexit
-import asyncio
-
 from requests import session
 
 from .exceptions import *
