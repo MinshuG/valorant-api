@@ -1,6 +1,6 @@
 from typing import List
+from valorant_api.spray import Spray
 
-from . import utils
 from .agents import Agent
 from .buddies import Buddy
 from .bundles import Bundle
@@ -139,6 +139,14 @@ Synchronous valorant-api wrapper
         data = self.sync.get(f"{Endpoints.Weapons}/{uuid}")
         return Weapon(data)
 
+    def get_sprays(self) -> List[Weapon]:
+        data = self.sync.get(Endpoints.Sprays)
+        return [Spray(x) for x in data]
+
+    def search_sprays_by_uuid(self, uuid:str) -> List[Weapon]:
+        data = self.sync.get(f"{Endpoints.Sprays}/{uuid}")
+        return Spray(data)
+
     def get_version(self):
         data = self.sync.get(f"{Endpoints.Version}")
         return Version(data)
@@ -263,6 +271,14 @@ Asynchronous valorant-api wrapper
     async def search_weapons_by_uuid(self, uuid: str) -> Weapon:
         data = await self.Async.get(f"{Endpoints.Weapons}/{uuid}")
         return Weapon(data)
+
+    async def get_sprays(self) -> List[Weapon]:
+        data = await self.Async.get(Endpoints.Sprays)
+        return [Spray(x) for x in data]
+
+    async def search_sprays_by_uuid(self, uuid:str) -> List[Weapon]:
+        data = await self.Async.get(f"{Endpoints.Sprays}/{uuid}")
+        return Spray(data)
 
     async def get_version(self):
         data = await self.Async.get(f"{Endpoints.Version}")

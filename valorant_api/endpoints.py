@@ -11,6 +11,7 @@ class Endpoints:
     PlayerCards = BASE + "playercards"
     PlayerTitles = BASE + "playertitles"
     Seasons = BASE + "seasons"
+    Sprays = BASE + "sprays"
     Themes = BASE + "themes"
     Weapons = BASE + "weapons"
     Version = BASE + "version"

@@ -33,6 +33,8 @@ def synctest():
     theme = api.search_themes_by_uuid("38f408dc-416e-eda9-3ac5-21892c5f5ad1")
     weapons = api.get_weapons()
     weapon = api.search_weapons_by_uuid("63e6c2b6-4a8e-869c-3d4c-e38355226584")
+    sprays = api.get_sprays()
+    spray = api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = api.get_version()
     print("Sync Test Completed")
 
@@ -65,6 +67,8 @@ async def Asynctest():
     theme = await api.search_themes_by_uuid("38f408dc-416e-eda9-3ac5-21892c5f5ad1")
     weapons = await api.get_weapons()
     weapon = await api.search_weapons_by_uuid("63e6c2b6-4a8e-869c-3d4c-e38355226584")
+    sprays = await api.get_sprays()
+    spray = await api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = await api.get_version()
     print("Async Test Completed")
 
