@@ -16,3 +16,6 @@ class Theme:
         self.store_featured_image = obj.get("storeFeaturedImage")
         self.asset_path = obj.get("assetPath")
         self.raw_data = obj
+
+    def __str__(self):
+        return str(self.raw_data)

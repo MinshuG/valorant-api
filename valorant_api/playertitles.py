@@ -9,3 +9,6 @@ class PlayerTitle:
         self.display_name = data.get("displayName")
         self.isb_hidden_if_not_owned = data.get("isbHiddenIfNotOwned")
         self.asset_path = data.get("assetPath")
+
+    def __str__(self):
+        return str(self.raw_data)

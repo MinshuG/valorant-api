@@ -64,3 +64,6 @@ class Agent:
         self.role = data.get("role")
         self.abilities = [Ability(x) for x in data.get("abilities")] if data.get("abilities") is not None else None
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

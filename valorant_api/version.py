@@ -16,3 +16,6 @@ class Version:
         self.build_version = data.get("buildVersion")
         self.build_date = dateutil.parser.parse(data.get("buildDate"))
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

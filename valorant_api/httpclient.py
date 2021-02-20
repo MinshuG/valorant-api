@@ -5,7 +5,7 @@ import json
 import aiohttp
 import requests
 from aiohttp import ClientSession
-from requests import session
+from requests import Session
 
 from .exceptions import *
 
@@ -13,7 +13,7 @@ from .exceptions import *
 class SyncClient:
     headers: dict = {}
     params: dict = {}
-    session: session
+    session: Session
 
     def __init__(self, headers=None, params=None) -> None:
         if params is None:

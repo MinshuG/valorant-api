@@ -192,3 +192,6 @@ class Weapon:
         self.shop_data = ShopData(data.get("shopData")) if data.get("shopData") is not None else None
         self.skins = [Skin(x) for x in data.get("skins")] if data.get("skins") is not None else None
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

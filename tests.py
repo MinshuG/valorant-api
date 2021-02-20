@@ -1,8 +1,10 @@
-from valorant_api import SyncValorantApi, AsyncValorantApi
-import asyncio
 import time
 
-language = "ru-RU"
+from valorant_api import SyncValorantApi, AsyncValorantApi
+from valorant_api import generators
+import asyncio
+
+language = "en-US"
 
 
 def synctest():
@@ -36,7 +38,6 @@ def synctest():
     sprays = api.get_sprays()
     spray = api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = api.get_version()
-    print("Sync Test Completed")
 
 
 async def Asynctest():
@@ -70,13 +71,26 @@ async def Asynctest():
     sprays = await api.get_sprays()
     spray = await api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = await api.get_version()
-    print("Async Test Completed")
 
 
-st = time.time()
-synctest()
-print("[Sync] Took", time.time()-st)
+async def generator_test():
+    api = AsyncValorantApi(language=language)
+    agents = await api.get_agents()
+    generator = generators.AgentImageGenerator(r"valorant_api\fonts\Valorant Font.ttf")
+    for agent in agents:
+        image = await generator.generate(agent)
+        image.save(f"images/{agent.uuid}.png", "PNG")
 
-st = time.time()
-asyncio.get_event_loop().run_until_complete(Asynctest())
-print("[Async] Took", time.time()-st)
+
+if __name__ == "__main__":
+    st = time.time()
+    synctest()
+    print("[Sync] Took", time.time() - st)
+
+    st = time.time()
+    asyncio.get_event_loop().run_until_complete(Asynctest())
+    print("[Async] Took", time.time() - st)
+
+    st = time.time()
+    asyncio.get_event_loop().run_until_complete(generator_test())
+    print("[Async: Generator] Took", time.time() - st)

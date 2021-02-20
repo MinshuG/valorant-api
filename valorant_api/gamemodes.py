@@ -36,6 +36,10 @@ class GameMode:
         self.asset_path = data.get("assetPath")
         self.raw_data = data
 
+    def __str__(self):
+        return str(self.raw_data)
+
+
 class Equippable:
     uuid: str
     display_name: str
@@ -53,3 +57,6 @@ class Equippable:
         self.kill_stream_icon = data.get("killStreamIcon")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

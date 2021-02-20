@@ -23,3 +23,6 @@ class Season:
         self.parent_uuid = data.get("parentUuid")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

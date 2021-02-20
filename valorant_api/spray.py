@@ -20,3 +20,6 @@ class Spray:
         self.full_transparent_icon = data.get("fullTransparentIcon")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

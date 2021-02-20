@@ -27,3 +27,6 @@ class Map:
         self.x_scalar_to_add = data.get("xScalarToAdd")
         self.y_scalar_to_add = data.get("yScalarToAdd")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

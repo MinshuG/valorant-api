@@ -19,3 +19,6 @@ class PlayerCard:
         self.large_art = data.get("largeArt")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)

@@ -15,3 +15,6 @@ class Buddy:
         self.display_icon = data.get("displayIcon")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
+
+    def __str__(self):
+        return str(self.raw_data)
