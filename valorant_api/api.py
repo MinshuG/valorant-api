@@ -1,5 +1,3 @@
-from typing import NewType
-
 from valorant_api.spray import Spray
 from .agents import Agent
 from .base_list import BaseList
@@ -17,8 +15,6 @@ from .seasons import Season
 from .themes import Theme
 from .version import Version
 from .weapons import Weapon
-
-# BaseList = NewType('BaseList', BaseList)
 
 
 class SyncValorantApi:

@@ -43,7 +43,7 @@ class Agent:
     is_full_portrait_right_facing: bool
     is_playable_character: bool
     is_available_for_test: bool
-    role: Role
+    role: Optional[Role]
     abilities: Optional[List[Ability]]
     raw_data: dict
 
@@ -61,7 +61,7 @@ class Agent:
         self.is_full_portrait_right_facing = data.get("isFullPortraitRightFacing")
         self.is_playable_character = data.get("isPlayableCharacter")
         self.is_available_for_test = data.get("isAvailableForTest")
-        self.role = data.get("role")
+        self.role = Role(data.get("role")) if data.get("role") is not None else None
         self.abilities = [Ability(x) for x in data.get("abilities")] if data.get("abilities") is not None else None
         self.raw_data = data
 
