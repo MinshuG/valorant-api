@@ -1,13 +1,18 @@
-# valorant_api
-python wrapper for valorant-api.com
+# valorant-api
+A Python wrapper for valorant-api.com
+
+[![pypi](https://img.shields.io/pypi/v/valorant-api.svg)](https://pypi.python.org/pypi/valorant-api/)
+[![Downloads](https://static.pepy.tech/personalized-badge/valorant-api?period=total&units=international_system&left_color=green&right_color=blue&left_text=Downloads)](https://pepy.tech/project/valorant-api)
 
 # Installation
-`pip install git+https://github.com/MinshuG/valorant-api` \
-or \
+<!-- `pip install git+https://github.com/MinshuG/valorant-api` \
+or \ -->
 `pip install valorant-api`
 
 # Usages
 ```py
+# this code is just for reference
+
 from valorant_api import SyncValorantApi, AsyncValorantApi
 
 #sync
@@ -19,8 +24,8 @@ api = AsyncValorantApi(language="ru-Ru")
 agents = await api.get_agents()
 
 # searching
-agent = agents.find_where(dispLayname="Raze", developerName="Gumshoe")
-agent = agents.find_first(dispLayname="Raze")
+agent = agents.find_where(displayname="Raze", developerName="Gumshoe")
+agent = agents.find_first(displayname="Raze")
 
 # agents image generation
 from valorant_api import generators
@@ -39,5 +44,4 @@ image.save("image.png", "PNG")
 * python-dateutil
 * aiohttp
 * requests
-* setuptools
 * Pillow
