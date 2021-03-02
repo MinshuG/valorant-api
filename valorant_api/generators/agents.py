@@ -3,6 +3,7 @@ from io import BytesIO
 
 import aiohttp
 import asyncio
+import textwrap
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 from valorant_api.agents import Agent
@@ -62,14 +63,18 @@ class AgentImageGenerator:  # total mess
         if text is None:
             return image
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(self.font_file, self.ability_font_size)
+
+        wraped = textwrap.wrap(text=text,width=20)
+
+        font = ImageFont.truetype(self.font_file, min(self.ability_font_size,int((self.ability_font_size/len(wraped))/.7)))
         align = "center"
-        x1, y1, x2, y2 = [position[0]-25, position[1]+175, position[0]+150, position[1]+110]
-        w, h = draw.textsize(text, font=font)
+        x1, y1, x2, y2 = [position[0]-25, position[1]+160, position[0]+150, position[1]+120]
+        w, h = draw.textsize(wraped[0], font=font)
         x = (x2 - x1 - w) / 2 + x1
         y = (y2 - y1 - h) / 2 + y1
         # draw.rectangle([x1, y1, x2, y2])  # bounding box
-        draw.text((x, y), text, font=font, fill=(255, 255, 255, 255), align=align)
+        
+        draw.text((x, y), "\n".join(wraped), font=font, fill=(255, 255, 255, 255), align=align)
         return image
 
     def draw_name(self, image: Image.Image, text: str):
@@ -95,4 +100,4 @@ class AgentImageGenerator:  # total mess
                 return Image.open(image_bytes).convert("RGBA")
             else:
                 raise Exception(
-                    f'An error unknown occurred while downloading a image, status code {response.status}')
+                    f'An error occurred while downloading a image, status code {response.status}')
