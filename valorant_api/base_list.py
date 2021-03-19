@@ -9,7 +9,6 @@ class BaseList(list, Generic[T]):
     def __init__(self, data: list):
         self._list = data
         super(BaseList, self).__init__(self._list)
-        self._index = -1
 
     def __iter__(self):
         for x in self._list:

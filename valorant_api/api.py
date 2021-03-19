@@ -1,4 +1,4 @@
-from valorant_api.spray import Spray
+from valorant_api.sprays import Spray
 from .agents import Agent
 from .base_list import BaseList
 from .buddies import Buddy

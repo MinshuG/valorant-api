@@ -79,7 +79,7 @@ async def generator_test():
     generator = generators.AgentImageGenerator(r"valorant_api\fonts\Valorant Font.ttf")
     for agent in agents:
         image = await generator.generate(agent)
-        image.save(f"images/{agent.uuid}.png", "PNG")
+        # image.save(f"images/{agent.uuid}.png", "PNG")
 
 
 if __name__ == "__main__":
