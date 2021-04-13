@@ -1,4 +1,5 @@
 import atexit
+from http.client import HTTPException
 from io import BytesIO
 
 import aiohttp
@@ -99,5 +100,5 @@ class AgentImageGenerator:  # total mess
                 image_bytes = BytesIO(await response.content.read())
                 return Image.open(image_bytes).convert("RGBA")
             else:
-                raise Exception(
+                raise HTTPException(
                     f'An error occurred while downloading a image, status code {response.status}')

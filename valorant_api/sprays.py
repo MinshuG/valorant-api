@@ -20,6 +20,7 @@ class Spray:
     uuid: str
     display_name: str
     category: Optional[str]
+    theme_uuid: Optional[str]
     display_icon: str
     full_icon: Optional[str]
     full_transparent_icon: Optional[str]
@@ -31,6 +32,7 @@ class Spray:
         self.uuid = data.get("uuid")
         self.display_name = data.get("displayName")
         self.category = data.get("category")
+        self.theme_uuid = data.get("themeUuid")
         self.display_icon = data.get("displayIcon")
         self.full_icon = data.get("fullIcon")
         self.full_transparent_icon = data.get("fullTransparentIcon")

@@ -1,6 +1,7 @@
 import asyncio
 import atexit
 import json
+from http.client import HTTPException
 
 import aiohttp
 import requests
@@ -41,7 +42,7 @@ class SyncClient:
         elif response.status_code == 404:
             raise NotFound(data["error"])
         else:
-            raise Exception(f'{data.get("error", "An error unknown occurred")}, status code {response.status_code}')
+            raise HTTPException(f'{data.get("error", "An error unknown occurred")}, status code {response.status_code}')
 
 
 class AsyncClient:
@@ -80,5 +81,5 @@ class AsyncClient:
             elif response.status == 404:
                 raise NotFound(data["error"])
             else:
-                raise Exception(
+                raise HTTPException(
                     f'{data.get("error", "An error unknown occurred")}, status code {response.status}')
