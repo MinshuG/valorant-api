@@ -13,7 +13,7 @@ from valorant_api.agents import Agent
 class AgentImageGenerator:  # total mess
     font_file: str
     resolution: tuple = (1024, 1024)
-    _blank_image: Image.Image = Image.new("RGBA", resolution, (240, 91, 87))
+    _blank_image: Image.Image = Image.new("RGBA", resolution, (34, 30, 40))  # (240, 91, 87)
     ability_font_size: int = 25
     display_name_font_size: int = 100
 
@@ -33,16 +33,18 @@ class AgentImageGenerator:  # total mess
         else:
             portrait = image.copy()
 
+        # agent image
         offset = (int((image.size[0] - portrait.size[0]) / 2 + 100), int((image.size[1] - portrait.size[1]) / 2))
         image.alpha_composite(portrait, offset)
 
-        crop_amt = 850
-        blurred = image.copy().crop((0, crop_amt, portrait.size[0], portrait.size[1])).filter(ImageFilter.GaussianBlur(20))
-
+        # blur
+        crop_amt = 840  # abilities offset from top
+        blurred = image.copy().crop((0, crop_amt, portrait.size[0], portrait.size[1])).filter(ImageFilter.GaussianBlur(5))
         image.paste(blurred, (0, crop_amt))
+
         image = self.draw_name(image, data.display_name)
 
-        icon_offset = 50
+        icon_offset = 50  # start offset from left
         num_abilities = len([x for x in data.abilities if x.slot != "Passive"])
         for ability in data.abilities:
             if ability.slot == "Passive":
@@ -53,7 +55,7 @@ class AgentImageGenerator:  # total mess
             else:
                 icon = Image.new("RGBA", (128, 128))
 
-            pos = (icon_offset, crop_amt + 10)
+            pos = (icon_offset, crop_amt + 10)  # crop_amt + ?? is offset from top
             image.alpha_composite(icon, pos)
             image = self.draw_ability_name(image, ability.display_name, pos)
             icon_offset += round(1024 / num_abilities)

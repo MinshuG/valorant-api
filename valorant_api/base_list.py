@@ -14,7 +14,7 @@ class BaseList(list, Generic[T]):
         for x in self._list:
             yield x
 
-    def find_first(self, **kwargs) -> Union[Optional[Any], None]:
+    def find_first(self, **kwargs) -> Optional[Any]:
         """:returns None if not found else first matching result"""
         kwargs = dict((k.lower(), v.lower()) for k, v in kwargs.items())  # to lower case key/value
         searchkeys = [x for x in list(kwargs.keys())]
@@ -32,7 +32,7 @@ class BaseList(list, Generic[T]):
 
         return None
 
-    def find_where(self, **kwargs) -> Union[list, None]:
+    def find_where(self, **kwargs):
         """:returns empty list if not found else list of matching result"""
         result = []
         kwargs = dict((k.lower(), v.lower()) for k, v in kwargs.items())  # to lower case key/value
@@ -48,4 +48,10 @@ class BaseList(list, Generic[T]):
                 if key in searchkeys:
                     if val == kwargs[key].lower():
                         result.append(datacls)
-        return result
+        return BaseList(result)
+
+    def __str__(self) -> str:
+        try:
+            return "\n".join([str(x) for x in self._list])
+        except:
+            return super().__str__()

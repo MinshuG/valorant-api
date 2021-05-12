@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Union
 
 
+@dataclass
 class Theme:
     uuid: str
     display_name: str
@@ -16,6 +18,3 @@ class Theme:
         self.store_featured_image = obj.get("storeFeaturedImage")
         self.asset_path = obj.get("assetPath")
         self.raw_data = obj
-
-    def __str__(self):
-        return str(self.raw_data)

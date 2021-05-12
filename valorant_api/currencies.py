@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Union
 
 
+@dataclass
 class Currency:
     uuid: str
     display_name: str
@@ -18,6 +20,3 @@ class Currency:
         self.large_icon = data.get("largeIcon")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

@@ -1,9 +1,11 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Union
 
 import dateutil.parser
 
 
+@dataclass
 class Season:
     uuid: str
     display_name: str

@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import List, Optional
 
 
+@dataclass
 class Ability:
     slot: str
     display_name: str
@@ -14,6 +16,7 @@ class Ability:
         self.display_icon = data.get("displayIcon")
 
 
+@dataclass
 class Role:
     uuid: str
     display_name: str
@@ -29,6 +32,7 @@ class Role:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Agent:
     uuid: str
     display_name: str
@@ -39,6 +43,7 @@ class Agent:
     display_icon_small: str
     bust_portrait: str
     full_portrait: str
+    kill_feed_portrait: str
     asset_path: str
     is_full_portrait_right_facing: bool
     is_playable_character: bool
@@ -57,6 +62,7 @@ class Agent:
         self.display_icon_small = data.get("displayIconSmall")
         self.bust_portrait = data.get("bustPortrait")
         self.full_portrait = data.get("fullPortrait")
+        self.kill_feed_portrait = data.get("killfeedPortrait")
         self.asset_path = data.get("assetPath")
         self.is_full_portrait_right_facing = data.get("isFullPortraitRightFacing")
         self.is_playable_character = data.get("isPlayableCharacter")
@@ -64,6 +70,3 @@ class Agent:
         self.role = Role(data.get("role")) if data.get("role") is not None else None
         self.abilities = [Ability(x) for x in data.get("abilities")] if data.get("abilities") is not None else None
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

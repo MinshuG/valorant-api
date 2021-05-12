@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import List, Optional
 
 
+@dataclass
 class Level:
     uuid: str
     charm_level: int
@@ -16,6 +18,7 @@ class Level:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Buddy:
     uuid: str
     display_name: str
@@ -35,6 +38,3 @@ class Buddy:
         self.asset_path = data.get("assetPath")
         self.levels = [Level(x) for x in data.get("levels")]
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

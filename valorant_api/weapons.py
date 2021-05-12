@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Optional, List
 
 
+@dataclass
 class GridPosition:
     row: int
     column: int
@@ -10,6 +12,7 @@ class GridPosition:
         self.column = data.get("column")
 
 
+@dataclass
 class ShopData:
     cost: int
     category: str
@@ -31,6 +34,7 @@ class ShopData:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Chroma:
     uuid: str
     display_name: str
@@ -48,6 +52,7 @@ class Chroma:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Level:
     uuid: str
     display_name: str
@@ -63,6 +68,7 @@ class Level:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Skin:
     uuid: str
     display_name: str
@@ -84,6 +90,7 @@ class Skin:
         self.levels = [Level(x) for x in data.get("levels") if x is not None]
 
 
+@dataclass
 class AdsStats:
     zoom_multiplier: float
     fire_rate: float
@@ -99,6 +106,7 @@ class AdsStats:
         self.first_bullet_accuracy = data.get("firstBulletAccuracy")
 
 
+@dataclass
 class DamageRange:
     range_start_meters: int
     range_end_meters: int
@@ -114,6 +122,7 @@ class DamageRange:
         self.leg_damage = data.get("legDamage")
 
 
+@dataclass
 class AirBurstStats:
     shotgun_pellet_count: int
     burst_distance: float
@@ -123,6 +132,7 @@ class AirBurstStats:
         self.burst_distance = data.get("burstDistance")
 
 
+@dataclass
 class AltShotgunStats:
     shotgun_pellet_count: int
     burst_rate: float
@@ -132,6 +142,7 @@ class AltShotgunStats:
         self.burst_rate = data.get("burstRate")
 
 
+@dataclass
 class WeaponStats:
     fire_rate: int
     magazine_size: int
@@ -167,6 +178,7 @@ class WeaponStats:
         self.damage_ranges = [DamageRange(x) for x in data.get("damageRanges")]
 
 
+@dataclass
 class Weapon:
     uuid: str
     display_name: str
@@ -192,6 +204,3 @@ class Weapon:
         self.shop_data = ShopData(data.get("shopData")) if data.get("shopData") is not None else None
         self.skins = [Skin(x) for x in data.get("skins")] if data.get("skins") is not None else None
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

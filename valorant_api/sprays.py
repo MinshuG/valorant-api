@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Optional, List
 
 
+@dataclass
 class Level:
     uuid: str
     spray_level: int
@@ -16,6 +18,7 @@ class Level:
         self.asset_path = data.get("assetPath")
 
 
+@dataclass
 class Spray:
     uuid: str
     display_name: str
@@ -39,6 +42,3 @@ class Spray:
         self.asset_path = data.get("assetPath")
         self.levels = [Level(x) for x in data.get("levels")]
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

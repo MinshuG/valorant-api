@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Union
 
 
+@dataclass
 class Bundle:
     uuid: str
     display_name: str
@@ -20,6 +22,3 @@ class Bundle:
         self.vertical_promo_image = data.get("verticalPromoImage")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)

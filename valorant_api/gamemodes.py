@@ -1,6 +1,8 @@
-from typing import List, Union
+from dataclasses import dataclass
+from typing import List, Optional
 
 
+@dataclass
 class GameFeatureOverride:
     feature_name: str
     state: bool
@@ -10,16 +12,29 @@ class GameFeatureOverride:
         self.state = data.get("state")
 
 
+@dataclass
+class GameRuleBoolOverride:
+    rule_name: str
+    state: bool
+
+    def __init__(self, data: dict) -> None:
+        self.rule_name = data.get("ruleName")
+        self.state = data.get("state")
+
+
+@dataclass
 class GameMode:
     uuid: str
-    display_name: str
-    duration: Union[str, None]
+    display_name: Optional[str]
+    duration: Optional[str]
+    allows_match_timeouts: bool
     is_team_voice_allowed: bool
     is_minimap_hidden: bool
     orb_count: int
-    team_roles: Union[List[str], None]
-    game_feature_overrides: Union[List[GameFeatureOverride], None]
-    display_icon: Union[str, None]
+    team_roles: Optional[List[str]]
+    game_feature_overrides: Optional[List[GameFeatureOverride]]
+    game_rule_bool_overrides: Optional[List[GameRuleBoolOverride]]
+    display_icon: Optional[str]
     asset_path: str
     raw_data: dict
 
@@ -27,6 +42,7 @@ class GameMode:
         self.uuid = data.get("uuid")
         self.display_name = data.get("displayName")
         self.duration = data.get("duration")
+        self.a = data.get("allowsMatchTimeouts")
         self.is_team_voice_allowed = data.get("isTeamVoiceAllowed")
         self.is_minimap_hidden = data.get("isMinimapHidden")
         self.orb_count = data.get("orbCount")
@@ -36,10 +52,8 @@ class GameMode:
         self.asset_path = data.get("assetPath")
         self.raw_data = data
 
-    def __str__(self):
-        return str(self.raw_data)
 
-
+@dataclass
 class Equippable:
     uuid: str
     display_name: str
@@ -57,6 +71,3 @@ class Equippable:
         self.kill_stream_icon = data.get("killStreamIcon")
         self.asset_path = data.get("assetPath")
         self.raw_data = data
-
-    def __str__(self):
-        return str(self.raw_data)
