@@ -4,6 +4,8 @@ from valorant_api import SyncValorantApi, AsyncValorantApi
 from valorant_api import generators
 import asyncio
 
+from valorant_api.agents import Agent
+
 language = "en-US"
 
 
@@ -24,7 +26,7 @@ def synctest():
     equippables = api.get_gamemode_equippables()
     equippable = api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = api.get_maps()
-    map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    Map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = api.get_playercards()
     playercard = api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = api.get_playertitles()
@@ -38,7 +40,16 @@ def synctest():
     sprays = api.get_sprays()
     spray = api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = api.get_version()
-
+    competitivetiers = api.get_competitivetiers()
+    competitivetier = api.search_competitivetiers_by_uuid(competitivetiers[0].uuid)
+    competitives = api.get_competitive()
+    competitive = api.search_competitive_by_uuid(competitives[0].uuid)
+    weaponskins = api.get_weapon_skins()
+    weaponskin = api.search_weapon_skins_by_uuid(weaponskins[0].uuid)
+    weaponlevels = api.get_weapons_levels()
+    weaponlevel = api.search_weapon_levels_by_uuid(weaponlevels[0].uuid)
+    weaponchromas = api.get_weapons_levels()
+    weaponchroma = api.search_weapon_levels_by_uuid(weaponchromas[0].uuid)
 
 async def Asynctest():
     api = AsyncValorantApi(language=language)
@@ -57,7 +68,7 @@ async def Asynctest():
     equippables = await api.get_gamemode_equippables()
     equippable = await api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = await api.get_maps()
-    map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    Map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = await api.get_playercards()
     playercard = await api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = await api.get_playertitles()
@@ -71,15 +82,34 @@ async def Asynctest():
     sprays = await api.get_sprays()
     spray = await api.search_sprays_by_uuid("3d2bcfc5-442b-812e-3c08-9180d6b36077")
     version = await api.get_version()
+    competitivetiers = await api.get_competitivetiers()
+    competitivetier = await api.search_competitivetiers_by_uuid(competitivetiers[0].uuid)
+    competitives = await api.get_competitive()
+    competitive = await api.search_competitive_by_uuid(competitives[0].uuid)
+    weaponskins = await api.get_weapon_skins()
+    weaponskin = await api.search_weapon_skins_by_uuid(weaponskins[0].uuid)
+    weaponlevels = await api.get_weapons_levels()
+    weaponlevel = await api.search_weapon_levels_by_uuid(weaponlevels[0].uuid)
+    weaponchromas = await api.get_weapons_levels()
+    weaponchroma = await api.search_weapon_levels_by_uuid(weaponchromas[0].uuid)
+
+
+async def generate(generator, agent: Agent):
+    image = await generator.generate(agent)
+    # image.save(f"images/{agent.display_name}_{agent.uuid}.png", "PNG")
+    # print(f"Done: {agent.display_name}")
 
 
 async def generator_test():
     api = AsyncValorantApi(language=language)
     agents = await api.get_agents()
-    generator = generators.AgentImageGenerator(r"valorant_api\fonts\Valorant Font.ttf")
+    generator = generators.AgentImageGenerator(r"valorant_api/fonts/Valorant Font.ttf")
+    tasks = []
     for agent in agents:
-        image = await generator.generate(agent)
-        # image.save(f"images/{agent.uuid}.png", "PNG")
+        tasks.append(asyncio.create_task(generate(generator, agent)))
+        # await generate(generator, agent)
+    # image.show()
+    await asyncio.gather(*tasks)
 
 
 if __name__ == "__main__":

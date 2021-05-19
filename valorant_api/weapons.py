@@ -41,14 +41,17 @@ class Chroma:
     display_icon: str
     full_render: str
     swatch: Optional[str]
+    streamed_video: Optional[str]
     asset_path: str
 
     def __init__(self, data: dict):
+        self.raw_data = data
         self.uuid = data.get("uuid")
         self.display_name = data.get("displayName")
         self.display_icon = data.get("displayIcon")
         self.full_render = data.get("fullRender")
         self.swatch = data.get("swatch")
+        self.streamed_video = data.get("streamedVideo")
         self.asset_path = data.get("assetPath")
 
 
@@ -58,13 +61,16 @@ class Level:
     display_name: str
     level_item: Optional[str]
     display_icon: str
+    streamed_video: Optional[str]
     asset_path: str
 
     def __init__(self, data: dict) -> None:
+        self.raw_data = data
         self.uuid = data.get("uuid")
         self.display_name = data.get("displayName")
         self.level_item = data.get("levelItem")
         self.display_icon = data.get("displayIcon")
+        self.streamed_video = data.get("streamedVideo")
         self.asset_path = data.get("assetPath")
 
 
@@ -80,6 +86,7 @@ class Skin:
     levels: List[Optional[Level]]
 
     def __init__(self, data: dict):
+        self.raw_data = data
         self.uuid = data.get("uuid")
         self.display_name = data.get("displayName")
         self.theme_uuid = data.get("themeUuid")

@@ -8,3 +8,6 @@ class InvalidOrMissingParameter(ValorantApi):  # 400
 
 class NotFound(ValorantApi):  # 404
     pass
+
+class AttributeExistsError(ValorantApi):
+    pass

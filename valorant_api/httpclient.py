@@ -2,7 +2,6 @@ import asyncio
 import atexit
 import json
 from http.client import HTTPException
-
 import aiohttp
 import requests
 from aiohttp import ClientSession
@@ -32,7 +31,7 @@ class SyncClient:
 
         try:
             data = response.json()
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError):# , simplejson.JSONDecodeError):  # linux uses simplejson??
             data = {'error': response.text}
 
         if response.status_code == 200:

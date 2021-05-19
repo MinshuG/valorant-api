@@ -1,3 +1,4 @@
+
 class Endpoints:
     BASE = "https://valorant-api.com/v1/"
     Agents = BASE + "agents"
@@ -6,7 +7,7 @@ class Endpoints:
     Content_Tiers = BASE + "contenttiers"
     Currencies = BASE + "currencies"
     GameMode = BASE + "gamemodes"
-    GamemodeEquippables = BASE + "gamemodes/equippables"
+    GamemodeEquippables = GameMode + "/equippables"
     Maps = BASE + "maps"
     PlayerCards = BASE + "playercards"
     PlayerTitles = BASE + "playertitles"
@@ -15,3 +16,8 @@ class Endpoints:
     Themes = BASE + "themes"
     Weapons = BASE + "weapons"
     Version = BASE + "version"
+    CompetitiveTiers = BASE + "competitivetiers"
+    Competitive = Seasons + "/competitive"
+    WeaponSkins = Weapons + "/skins"
+    WeaponSkinChromas = Weapons + "/skinchromas"
+    WeaponSkinLevels = Weapons + "/skinlevels"
