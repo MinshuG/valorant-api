@@ -1,12 +1,12 @@
-from typing import Union, Optional, Any, Generic, TypeVar
+from typing import List, Union, Optional, Any, Generic, TypeVar
 
 T = TypeVar('T')
 
 
-class BaseList(list, Generic[T]):
-    _list: list
+class BaseList(list):
+    _list: List[T]
 
-    def __init__(self, data: list):
+    def __init__(self, data: List[T]):
         self._list = data
         super(BaseList, self).__init__(self._list)
 
@@ -14,8 +14,8 @@ class BaseList(list, Generic[T]):
         for x in self._list:
             yield x
 
-    def find_first(self, **kwargs) -> Optional[Any]:
-        """:returns None if not found else first matching result"""
+    def find_first(self, **kwargs) -> Optional[T]:
+        """returns None if not found else first matching result."""
         kwargs = dict((k.lower(), v.lower()) for k, v in kwargs.items())  # to lower case key/value
         searchkeys = [x for x in list(kwargs.keys())]
         x: dict[str, str]
@@ -29,11 +29,10 @@ class BaseList(list, Generic[T]):
                 if key in searchkeys:
                     if val == kwargs[key].lower():
                         return datacls
-
         return None
 
-    def find_where(self, **kwargs):
-        """:returns empty list if not found else list of matching result"""
+    def find_where(self, **kwargs) -> List[T]:
+        """returns empty list if not found else list of matching result."""
         result = []
         kwargs = dict((k.lower(), v.lower()) for k, v in kwargs.items())  # to lower case key/value
         searchkeys = [x for x in list(kwargs.keys())]
@@ -51,7 +50,4 @@ class BaseList(list, Generic[T]):
         return BaseList(result)
 
     def __str__(self) -> str:
-        try:
-            return "\n".join([str(x) for x in self._list])
-        except:
-            return super().__str__()
+        return super().__str__()

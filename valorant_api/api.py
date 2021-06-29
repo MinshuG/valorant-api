@@ -1,3 +1,5 @@
+from valorant_api.events import Event
+from valorant_api.contracts import Contract
 from .competitive import Competitive
 from .competitivetiers import CompetitiveTier
 from .sprays import Spray
@@ -60,11 +62,11 @@ Synchronous valorant-api wrapper
         return Bundle(data)
 
     def get_contenttiers(self) -> BaseList[ContentTier]:
-        data = self.client.get(Endpoints.Content_Tiers)
+        data = self.client.get(Endpoints.ContentTiers)
         return BaseList([ContentTier(x) for x in data])
 
     def search_contenttier_by_uuid(self, uuid: str) -> ContentTier:
-        data = self.client.get(f"{Endpoints.Content_Tiers}/{uuid}")
+        data = self.client.get(f"{Endpoints.ContentTiers}/{uuid}")
         return ContentTier(data)
 
     def get_currencies(self) -> BaseList[Currency]:
@@ -190,6 +192,22 @@ Synchronous valorant-api wrapper
     def search_weapon_chromas_by_uuid(self, uuid: str) -> Chroma:
         data = self.client.get(f"{Endpoints.WeaponSkinChromas}/{uuid}")
         return Chroma(data)
+    
+    def get_contracts(self) -> BaseList[Contract]:
+        data = self.client.get(Endpoints.Contracts)
+        return BaseList([Contract(x) for x in data])
+
+    def search_contracts_by_uuid(self, uuid: str) -> Chroma:
+        data = self.client.get(f"{Endpoints.Contracts}/{uuid}")
+        return Contract(data)
+    
+    def get_events(self) -> BaseList[Event]:
+        data = self.client.get(Endpoints.Events)
+        return BaseList([Event(x) for x in data])
+
+    def search_events_by_uuid(self, uuid: str) -> Event:
+        data = self.client.get(f"{Endpoints.Events}/{uuid}")
+        return Contract(data)
 
 
 class AsyncValorantApi:
@@ -233,11 +251,11 @@ Asynchronous valorant-api wrapper
         return Bundle(data)
 
     async def get_contenttiers(self) -> BaseList[ContentTier]:
-        data = await self.client.get(Endpoints.Content_Tiers)
+        data = await self.client.get(Endpoints.ContentTiers)
         return BaseList([ContentTier(x) for x in data])
 
     async def search_contenttier_by_uuid(self, uuid: str) -> ContentTier:
-        data = await self.client.get(f"{Endpoints.Content_Tiers}/{uuid}")
+        data = await self.client.get(f"{Endpoints.ContentTiers}/{uuid}")
         return ContentTier(data)
 
     async def get_currencies(self) -> BaseList[Currency]:
@@ -363,3 +381,19 @@ Asynchronous valorant-api wrapper
     async def search_weapon_chromas_by_uuid(self, uuid: str) -> Chroma:
         data = await self.client.get(f"{Endpoints.WeaponSkinChromas}/{uuid}")
         return Chroma(data)
+
+    async def get_contracts(self) -> BaseList[Contract]:
+        data = await self.client.get(Endpoints.Contracts)
+        return BaseList([Contract(x) for x in data])
+
+    async def search_contracts_by_uuid(self, uuid: str) -> Chroma:
+        data = await self.client.get(f"{Endpoints.Contracts}/{uuid}")
+        return Contract(data)
+
+    async def get_events(self) -> BaseList[Event]:
+        data = await self.client.get(Endpoints.Events)
+        return BaseList([Event(x) for x in data])
+
+    async def search_events_by_uuid(self, uuid: str) -> Event:
+        data = await self.client.get(f"{Endpoints.Events}/{uuid}")
+        return Contract(data)

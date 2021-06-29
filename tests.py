@@ -50,6 +50,10 @@ def synctest():
     weaponlevel = api.search_weapon_levels_by_uuid(weaponlevels[0].uuid)
     weaponchromas = api.get_weapons_levels()
     weaponchroma = api.search_weapon_levels_by_uuid(weaponchromas[0].uuid)
+    contracts = api.get_contracts()
+    contract = api.search_contracts_by_uuid(contracts[0].uuid)
+    events = api.get_events()
+    event = api.search_events_by_uuid(events[0].uuid)
 
 async def Asynctest():
     api = AsyncValorantApi(language=language)
@@ -92,11 +96,14 @@ async def Asynctest():
     weaponlevel = await api.search_weapon_levels_by_uuid(weaponlevels[0].uuid)
     weaponchromas = await api.get_weapons_levels()
     weaponchroma = await api.search_weapon_levels_by_uuid(weaponchromas[0].uuid)
-
+    contracts = await api.get_contracts()
+    contract = await api.search_contracts_by_uuid(contracts[0].uuid)
+    events = await api.get_events()
+    event = await api.search_events_by_uuid(events[0].uuid)
 
 async def generate(generator, agent: Agent):
     image = await generator.generate(agent)
-    # image.save(f"images/{agent.display_name}_{agent.uuid}.png", "PNG")
+    # image.save(f"images/{agent.display_name.replace('/', '_')}_{agent.uuid}.png", "PNG") # KAY/O
     # print(f"Done: {agent.display_name}")
 
 
