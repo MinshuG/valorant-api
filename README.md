@@ -38,6 +38,9 @@ image = await generator.generate(agent)
 # save the image
 image.save("image.png", "PNG")
 ```
+# Agents Image Example
+<img src="./example.png" alt="KAY/O" width="250"/>
+<!-- ![KAY/O](/example.png) -->
 
 # Requirements
 
