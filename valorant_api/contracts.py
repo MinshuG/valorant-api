@@ -44,6 +44,7 @@ class Chapter(Mapper):
 @dataclass
 class Content(Mapper):
     relation_uuid: str
+    relation_type: str
     chapters: List[Chapter]
     premium_reward_schedule_uuid: str
     premium_vp_cost: int

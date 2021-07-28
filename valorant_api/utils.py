@@ -21,7 +21,8 @@ class Mapper(object): # why
         for key, value in raw_data.items():
             key_snake = snakeit(key)
             if hasattr(self, key_snake):
-                raise AttributeExistsError(f"{self} already has '{key_snake}' attribute.")
+                if getattr(self, key_snake) is not None:
+                    raise AttributeExistsError(f"{self} already has '{key_snake}' attribute.")
             if isinstance(value, dict):
                 child = childclasses[key]()
                 child.map(childdata=value, childclasses=childclasses)

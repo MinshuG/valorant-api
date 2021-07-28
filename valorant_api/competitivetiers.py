@@ -8,6 +8,7 @@ class Tier:
     tier_name: str
     division: str
     division_name: str
+    background_color: str
     color: str
     small_icon: Optional[str]
     large_icon: Optional[str]
@@ -19,6 +20,7 @@ class Tier:
         self.tier_name = data.get("tierName")
         self.division = data.get("division")
         self.division_name = data.get("divisionName")
+        self.background_color = data.get("backgroundColor")
         self.color = data.get("color")
         self.small_icon = data.get("smallIcon")
         self.large_icon = data.get("largeIcon")

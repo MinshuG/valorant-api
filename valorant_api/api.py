@@ -1,11 +1,14 @@
+from valorant_api.gear import Gear
 from valorant_api.events import Event
 from valorant_api.contracts import Contract
 from .competitive import Competitive
 from .competitivetiers import CompetitiveTier
 from .sprays import Spray
+from .sprays import Level as SprayLevel
 from .agents import Agent
 from .base_list import BaseList
 from .buddies import Buddy
+from .buddies import Level as BuddyLevel
 from .bundles import Bundle
 from .contenttiers import ContentTier
 from .currencies import Currency
@@ -209,6 +212,30 @@ Synchronous valorant-api wrapper
         data = self.client.get(f"{Endpoints.Events}/{uuid}")
         return Contract(data)
 
+    def get_gears(self) -> BaseList[Gear]:
+        data = self.client.get(Endpoints.Gears)
+        return BaseList([Gear(x) for x in data])
+
+    def search_gears_by_uuid(self, uuid: str) -> Gear:
+        data = self.client.get(f"{Endpoints.Gears}/{uuid}")
+        return Gear(data)
+
+    def get_buddy_levels(self) -> BaseList[BuddyLevel]:
+        data = self.client.get(Endpoints.BuddyLevels)
+        return BaseList([BuddyLevel(x) for x in data])
+
+    def search_buddy_levels_by_uuid(self, uuid: str) -> BuddyLevel:
+        data = self.client.get(f"{Endpoints.BuddyLevels}/{uuid}")
+        return BuddyLevel(data)
+    
+    def get_spray_levels(self) -> BaseList[SprayLevel]:
+        data = self.client.get(Endpoints.SprayLevels)
+        return BaseList([SprayLevel(x) for x in data])
+    
+    def search_spray_levels_by_uuid(self, uuid: str) -> SprayLevel:
+        data = self.client.get(f"{Endpoints.SprayLevels}/{uuid}")
+        return SprayLevel(data)
+
 
 class AsyncValorantApi:
     """
@@ -397,3 +424,27 @@ Asynchronous valorant-api wrapper
     async def search_events_by_uuid(self, uuid: str) -> Event:
         data = await self.client.get(f"{Endpoints.Events}/{uuid}")
         return Contract(data)
+
+    async def get_gears(self) -> BaseList[Gear]:
+        data = await self.client.get(Endpoints.Gears)
+        return BaseList([Gear(x) for x in data])
+
+    async def search_gears_by_uuid(self, uuid: str) -> Gear:
+        data = await self.client.get(f"{Endpoints.Gears}/{uuid}")
+        return Gear(data)
+
+    async def get_buddy_levels(self) -> BaseList[BuddyLevel]:
+        data = await self.client.get(Endpoints.BuddyLevels)
+        return BaseList([BuddyLevel(x) for x in data])
+
+    async def search_buddy_levels_by_uuid(self, uuid: str) -> BuddyLevel:
+        data = await self.client.get(f"{Endpoints.BuddyLevels}/{uuid}")
+        return BuddyLevel(data)
+
+    async def get_spray_levels(self) -> BaseList[SprayLevel]:
+        data = await self.client.get(Endpoints.SprayLevels)
+        return BaseList([SprayLevel(x) for x in data])
+    
+    async def search_spray_levels_by_uuid(self, uuid: str) -> SprayLevel:
+        data = await self.client.get(f"{Endpoints.SprayLevels}/{uuid}")
+        return SprayLevel(data)

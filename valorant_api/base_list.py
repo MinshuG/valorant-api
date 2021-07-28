@@ -3,7 +3,7 @@ from typing import List, Union, Optional, Any, Generic, TypeVar
 T = TypeVar('T')
 
 
-class BaseList(list):
+class BaseList(list, Generic[T]):
     _list: List[T]
 
     def __init__(self, data: List[T]):

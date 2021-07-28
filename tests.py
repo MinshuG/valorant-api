@@ -54,6 +54,12 @@ def synctest():
     contract = api.search_contracts_by_uuid(contracts[0].uuid)
     events = api.get_events()
     event = api.search_events_by_uuid(events[0].uuid)
+    gears = api.get_gears()
+    gear = api.search_gears_by_uuid(gears[0].uuid)
+    buddy_levels = api.get_buddy_levels()
+    buddy_level = api.search_buddy_levels_by_uuid(buddy_levels[0].uuid)
+    spray_levels = api.get_spray_levels()
+    spray_level = api.search_spray_levels_by_uuid(spray_levels[0].uuid)
 
 async def Asynctest():
     api = AsyncValorantApi(language=language)
@@ -100,6 +106,12 @@ async def Asynctest():
     contract = await api.search_contracts_by_uuid(contracts[0].uuid)
     events = await api.get_events()
     event = await api.search_events_by_uuid(events[0].uuid)
+    gears = await api.get_gears()
+    gear = await api.search_gears_by_uuid(gears[0].uuid)
+    buddy_levels = await api.get_buddy_levels()
+    buddy_level = await api.search_buddy_levels_by_uuid(buddy_levels[0].uuid)
+    spray_levels = await api.get_spray_levels()
+    spray_level = await api.search_spray_levels_by_uuid(spray_levels[0].uuid)
 
 async def generate(generator, agent: Agent):
     image = await generator.generate(agent)
