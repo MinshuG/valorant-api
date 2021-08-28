@@ -55,5 +55,5 @@ class Map:
         self.y_multiplier = data.get("yMultiplier")
         self.x_scalar_to_add = data.get("xScalarToAdd")
         self.y_scalar_to_add = data.get("yScalarToAdd")
-        self.callouts = [Callout(x) for x in data.get("callouts")]
+        self.callouts = [Callout(x) for x in data.get("callouts")] if data.get("callouts") else []
         self.raw_data = data

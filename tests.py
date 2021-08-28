@@ -12,7 +12,7 @@ language = "en-US"
 def synctest():
     api = SyncValorantApi(language=language)
     agents = api.get_agents()
-    agent = api.search_agents_by_uuid("5f8d3a7f-467b-97f3-062c-13acf203c006")
+    agent = api.search_agents_by_uuid("6f2a04ca-43e0-be17-7f36-b3908627744d")
     buddies = api.get_buddies()
     buddy = api.search_buddies_by_uuid("d6f5e6a4-4d42-b56d-03c3-92955d294f54")
     bundles = api.get_bundles()
@@ -64,7 +64,7 @@ def synctest():
 async def Asynctest():
     api = AsyncValorantApi(language=language)
     agents = await api.get_agents()
-    agent = await api.search_agents_by_uuid("5f8d3a7f-467b-97f3-062c-13acf203c006")
+    agent = await api.search_agents_by_uuid("6f2a04ca-43e0-be17-7f36-b3908627744d", params= {"responseOptions": "ignore_null"})
     buddies = await api.get_buddies()
     buddy = await api.search_buddies_by_uuid("d6f5e6a4-4d42-b56d-03c3-92955d294f54")
     bundles = await api.get_bundles()
@@ -115,7 +115,7 @@ async def Asynctest():
 
 async def generate(generator, agent: Agent):
     image = await generator.generate(agent)
-    # image.save(f"images/{agent.display_name.replace('/', '_')}_{agent.uuid}.png", "PNG") # KAY/O
+    image.save(f"images/{agent.display_name.replace('/', '_')}_{agent.uuid}.png", "PNG") # KAY/O
     # print(f"Done: {agent.display_name}")
 
 
