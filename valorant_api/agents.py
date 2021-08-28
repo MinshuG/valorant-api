@@ -33,6 +33,29 @@ class Role:
 
 
 @dataclass
+class Media:
+    id: str
+    wwise: str
+    wave: str
+
+    def __init__(self, data: dict) -> None:
+        self.id = data.get("id")
+        self.wwise = data.get("wwise")
+        self.wave = data.get("wave")
+
+
+@dataclass
+class VoiceLine:
+    min_duration: float
+    max_duration: float
+    media_list: List[Media]
+
+    def __init__(self, data: dict) -> None:
+        self.min_duration = data.get("minDuration")
+        self.max_duration = data.get("maxDuration")
+        self.media_list = [Media(x) for x in data.get("mediaList")]
+
+@dataclass
 class Agent:
     uuid: str
     display_name: str
@@ -50,6 +73,7 @@ class Agent:
     is_available_for_test: bool
     role: Optional[Role]
     abilities: Optional[List[Ability]]
+    voice_line: Optional[VoiceLine]
     raw_data: dict
 
     def __init__(self, data: dict) -> None:
@@ -69,4 +93,5 @@ class Agent:
         self.is_available_for_test = data.get("isAvailableForTest")
         self.role = Role(data.get("role")) if data.get("role") is not None else None
         self.abilities = [Ability(x) for x in data.get("abilities")] if data.get("abilities") is not None else None
+        self.voice_line = VoiceLine(data.get("voiceLine")) if data.get("voiceLine") is not None else None
         self.raw_data = data

@@ -80,6 +80,7 @@ class Skin:
     display_name: str
     theme_uuid: str
     content_tier_uuid: Optional[str]
+    wallpaper: Optional[str]
     display_icon: str
     asset_path: str
     chromas: List[Optional[Chroma]]
@@ -91,6 +92,7 @@ class Skin:
         self.display_name = data.get("displayName")
         self.theme_uuid = data.get("themeUuid")
         self.content_tier_uuid = data.get("contentTierUuid")
+        self.wallpaper = data.get("wallpaper")
         self.display_icon = data.get("displayIcon")
         self.asset_path = data.get("assetPath")
         self.chromas = [Chroma(x) for x in data.get("chromas") if x is not None]
