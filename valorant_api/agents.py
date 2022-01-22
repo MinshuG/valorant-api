@@ -67,6 +67,7 @@ class Agent:
     bust_portrait: str
     full_portrait: str
     kill_feed_portrait: str
+    background: str
     asset_path: str
     is_full_portrait_right_facing: bool
     is_playable_character: bool
@@ -87,6 +88,7 @@ class Agent:
         self.bust_portrait = data.get("bustPortrait")
         self.full_portrait = data.get("fullPortrait")
         self.kill_feed_portrait = data.get("killfeedPortrait")
+        self.background = data.get("background")
         self.asset_path = data.get("assetPath")
         self.is_full_portrait_right_facing = data.get("isFullPortraitRightFacing")
         self.is_playable_character = data.get("isPlayableCharacter")
