@@ -26,7 +26,7 @@ def synctest():
     equippables = api.get_gamemode_equippables()
     equippable = api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = api.get_maps()
-    Map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = api.get_playercards()
     playercard = api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = api.get_playertitles()
@@ -60,6 +60,9 @@ def synctest():
     buddy_level = api.search_buddy_levels_by_uuid(buddy_levels[0].uuid)
     spray_levels = api.get_spray_levels()
     spray_level = api.search_spray_levels_by_uuid(spray_levels[0].uuid)
+    ceremonies = api.get_ceremonies()
+    ceremony = api.search_ceremonies_by_uuid(ceremonies[0].uuid)
+
 
 async def Asynctest():
     api = AsyncValorantApi(language=language)
@@ -78,7 +81,7 @@ async def Asynctest():
     equippables = await api.get_gamemode_equippables()
     equippable = await api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = await api.get_maps()
-    Map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = await api.get_playercards()
     playercard = await api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = await api.get_playertitles()
@@ -112,6 +115,8 @@ async def Asynctest():
     buddy_level = await api.search_buddy_levels_by_uuid(buddy_levels[0].uuid)
     spray_levels = await api.get_spray_levels()
     spray_level = await api.search_spray_levels_by_uuid(spray_levels[0].uuid)
+    ceremonies = await api.get_ceremonies()
+    ceremony = await api.search_ceremonies_by_uuid(ceremonies[0].uuid)
 
 async def generate(generator, agent: Agent):
     image = await generator.generate(agent)

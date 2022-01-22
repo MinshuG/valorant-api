@@ -5,6 +5,7 @@ class Endpoints:
     Buddies = BASE + "buddies"
     BuddyLevels = Buddies + "/levels"
     Bundles = BASE + "bundles"
+    Ceremonies = BASE + "ceremonies"
     ContentTiers = BASE + "contenttiers"
     Currencies = BASE + "currencies"
     GameMode = BASE + "gamemodes"

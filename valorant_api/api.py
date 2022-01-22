@@ -1,6 +1,7 @@
-from valorant_api.gear import Gear
-from valorant_api.events import Event
-from valorant_api.contracts import Contract
+from .ceremonies import Ceremony
+from .gear import Gear
+from .events import Event
+from .contracts import Contract
 from .competitive import Competitive
 from .competitivetiers import CompetitiveTier
 from .sprays import Spray
@@ -79,6 +80,14 @@ Synchronous valorant-api wrapper
     def search_currencies_by_uuid(self, uuid: str, *args, **kwargs) -> ContentTier:
         data = self.client.get(f"{Endpoints.Currencies}/{uuid}", *args, **kwargs)
         return ContentTier(data)
+
+    def get_ceremonies(self, *args, **kwargs) -> BaseList[Ceremony]:
+        data = self.client.get(Endpoints.Ceremonies, *args, **kwargs)
+        return BaseList([Ceremony(x) for x in data])
+
+    def search_ceremonies_by_uuid(self, uuid: str, *args, **kwargs) -> Ceremony:
+        data = self.client.get(f"{Endpoints.Ceremonies}/{uuid}", *args, **kwargs)
+        return Ceremony(data)
 
     def get_gamemodes(self, *args, **kwargs) -> BaseList[GameMode]:
         data = self.client.get(Endpoints.GameMode, *args, **kwargs)
@@ -292,6 +301,14 @@ Asynchronous valorant-api wrapper
     async def search_currencies_by_uuid(self, uuid: str, *args, **kwargs) -> ContentTier:
         data = await self.client.get(f"{Endpoints.Currencies}/{uuid}", *args, **kwargs)
         return ContentTier(data)
+
+    async def get_ceremonies(self, *args, **kwargs) -> BaseList[Ceremony]:
+        data = await self.client.get(Endpoints.Ceremonies, *args, **kwargs)
+        return BaseList([Ceremony(x) for x in data])
+
+    async def search_ceremonies_by_uuid(self, uuid: str, *args, **kwargs) -> Ceremony:
+        data = await self.client.get(f"{Endpoints.Ceremonies}/{uuid}", *args, **kwargs)
+        return Ceremony(data)
 
     async def get_gamemodes(self, *args, **kwargs) -> BaseList[GameMode]:
         data = await self.client.get(Endpoints.GameMode, *args, **kwargs)
