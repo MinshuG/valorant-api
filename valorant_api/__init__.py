@@ -1,3 +1,3 @@
-__version__ = "0.1.1"
+from ._version import __version__
 
 from .api import SyncValorantApi, AsyncValorantApi

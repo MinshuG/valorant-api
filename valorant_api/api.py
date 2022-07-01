@@ -15,7 +15,6 @@ from .contenttiers import ContentTier
 from .currencies import Currency
 from .endpoints import Endpoints
 from .gamemodes import GameMode, Equippable
-from .httpclient import AsyncClient, SyncClient
 from .maps import Map
 from .playercards import PlayerCard
 from .playertitles import PlayerTitle
@@ -23,6 +22,9 @@ from .seasons import Season
 from .themes import Theme
 from .version import Version
 from .weapons import Chroma, Skin, Weapon, Level
+from .levelborders import LevelBorder
+
+from .httpclient import AsyncClient, SyncClient
 
 
 class SyncValorantApi:
@@ -204,7 +206,7 @@ Synchronous valorant-api wrapper
     def search_weapon_chromas_by_uuid(self, uuid: str, *args, **kwargs) -> Chroma:
         data = self.client.get(f"{Endpoints.WeaponSkinChromas}/{uuid}", *args, **kwargs)
         return Chroma(data)
-    
+
     def get_contracts(self, *args, **kwargs) -> BaseList[Contract]:
         data = self.client.get(Endpoints.Contracts, *args, **kwargs)
         return BaseList([Contract(x) for x in data])
@@ -212,7 +214,7 @@ Synchronous valorant-api wrapper
     def search_contracts_by_uuid(self, uuid: str, *args, **kwargs) -> Chroma:
         data = self.client.get(f"{Endpoints.Contracts}/{uuid}", *args, **kwargs)
         return Contract(data)
-    
+
     def get_events(self, *args, **kwargs) -> BaseList[Event]:
         data = self.client.get(Endpoints.Events, *args, **kwargs)
         return BaseList([Event(x) for x in data])
@@ -236,15 +238,22 @@ Synchronous valorant-api wrapper
     def search_buddy_levels_by_uuid(self, uuid: str, *args, **kwargs) -> BuddyLevel:
         data = self.client.get(f"{Endpoints.BuddyLevels}/{uuid}", *args, **kwargs)
         return BuddyLevel(data)
-    
+
     def get_spray_levels(self, *args, **kwargs) -> BaseList[SprayLevel]:
         data = self.client.get(Endpoints.SprayLevels, *args, **kwargs)
         return BaseList([SprayLevel(x) for x in data])
-    
+
     def search_spray_levels_by_uuid(self, uuid: str, *args, **kwargs) -> SprayLevel:
         data = self.client.get(f"{Endpoints.SprayLevels}/{uuid}", *args, **kwargs)
         return SprayLevel(data)
 
+    def get_level_borders(self, *args, **kwargs) -> BaseList[LevelBorder]:
+        data = self.client.get(Endpoints.LevelBorders, *args, **kwargs)
+        return BaseList([LevelBorder(x) for x in data])
+
+    def search_level_borders_by_uuid(self, uuid: str, *args, **kwargs) -> LevelBorder:
+        data = self.client.get(f"{Endpoints.LevelBorders}/{uuid}", *args, **kwargs)
+        return LevelBorder(data)
 
 class AsyncValorantApi:
     """
@@ -393,11 +402,11 @@ Asynchronous valorant-api wrapper
     async def search_competitivetiers_by_uuid(self, uuid: str, *args, **kwargs) -> CompetitiveTier:
         data = await self.client.get(f"{Endpoints.CompetitiveTiers}/{uuid}", *args, **kwargs)
         return CompetitiveTier(data)
-    
+
     async def get_competitive(self, *args, **kwargs) -> BaseList[Competitive]:
         data = await self.client.get(Endpoints.Competitive, *args, **kwargs)
         return BaseList([Competitive(x) for x in data])
-    
+
     async def search_competitive_by_uuid(self, uuid: str, *args, **kwargs) -> BaseList[Competitive]:
         data = await self.client.get(f"{Endpoints.Competitive}/{uuid}", *args, **kwargs)
         return Competitive(data)
@@ -461,7 +470,15 @@ Asynchronous valorant-api wrapper
     async def get_spray_levels(self, *args, **kwargs) -> BaseList[SprayLevel]:
         data = await self.client.get(Endpoints.SprayLevels, *args, **kwargs)
         return BaseList([SprayLevel(x) for x in data])
-    
+
     async def search_spray_levels_by_uuid(self, uuid: str, *args, **kwargs) -> SprayLevel:
         data = await self.client.get(f"{Endpoints.SprayLevels}/{uuid}", *args, **kwargs)
         return SprayLevel(data)
+
+    async def get_level_borders(self, *args, **kwargs) -> BaseList[LevelBorder]:
+        data = await self.client.get(Endpoints.LevelBorders, *args, **kwargs)
+        return BaseList([LevelBorder(x) for x in data])
+
+    async def search_level_borders_by_uuid(self, uuid: str, *args, **kwargs) -> LevelBorder:
+        data = await self.client.get(f"{Endpoints.LevelBorders}/{uuid}", *args, **kwargs)
+        return LevelBorder(data)

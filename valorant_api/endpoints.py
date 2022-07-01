@@ -27,3 +27,4 @@ class Endpoints:
     Contracts = BASE + "contracts"
     Events = BASE + "events"
     Gears = BASE + "gear"
+    LevelBorders = BASE + "levelborders"

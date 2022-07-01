@@ -32,8 +32,8 @@ class SyncClient:
             self.headers = headers
             self.session = requests.Session()
 
-    def get(self, url: str, params: dict = None) -> dict:
-        response = self.session.get(url, params=override_params(copy.copy(self.params), params), headers=self.headers)
+    def get(self, url: str, **kwargs) -> dict:
+        response = self.session.get(url, params=override_params(copy.copy(self.params), kwargs), headers=self.headers)
 
         try:
             data = response.json()
@@ -68,11 +68,10 @@ class AsyncClient:
         atexit.register(self.close)
 
     def close(self):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.session.close())
+        asyncio.run(self.session.close())
 
-    async def get(self, url: str, params: dict = None) -> dict:
-        async with self.session.get(url, params=override_params(copy.copy(self.params), params), headers=self.headers) as response:
+    async def get(self, url: str, **kwargs) -> dict:
+        async with self.session.get(url, params=override_params(copy.copy(self.params), kwargs), headers=self.headers) as response:
             try:
                 data = await response.json()
             except aiohttp.ContentTypeError:

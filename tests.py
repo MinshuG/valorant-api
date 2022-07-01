@@ -26,7 +26,7 @@ def synctest():
     equippables = api.get_gamemode_equippables()
     equippable = api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = api.get_maps()
-    map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    _map = api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = api.get_playercards()
     playercard = api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = api.get_playertitles()
@@ -62,12 +62,14 @@ def synctest():
     spray_level = api.search_spray_levels_by_uuid(spray_levels[0].uuid)
     ceremonies = api.get_ceremonies()
     ceremony = api.search_ceremonies_by_uuid(ceremonies[0].uuid)
+    levelborders = api.get_level_borders()
+    levelborder = api.search_level_borders_by_uuid(levelborders[0].uuid)
 
 
 async def Asynctest():
     api = AsyncValorantApi(language=language)
     agents = await api.get_agents()
-    agent = await api.search_agents_by_uuid("6f2a04ca-43e0-be17-7f36-b3908627744d", params= {"responseOptions": "ignore_null"})
+    agent = await api.search_agents_by_uuid("6f2a04ca-43e0-be17-7f36-b3908627744d", responseOptions="ignore_null")
     buddies = await api.get_buddies()
     buddy = await api.search_buddies_by_uuid("d6f5e6a4-4d42-b56d-03c3-92955d294f54")
     bundles = await api.get_bundles()
@@ -81,7 +83,7 @@ async def Asynctest():
     equippables = await api.get_gamemode_equippables()
     equippable = await api.search_gamemode_equippables_by_uuid("3de32920-4a8f-0499-7740-648a5bf95470")
     maps = await api.get_maps()
-    map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
+    _map = await api.search_maps_by_uuid("7eaecc1b-4337-bbf6-6ab9-04b8f06b3319")
     playercards = await api.get_playercards()
     playercard = await api.search_playercards_by_uuid("33c1f011-4eca-068c-9751-f68c788b2eee")
     playertitles = await api.get_playertitles()
@@ -117,6 +119,9 @@ async def Asynctest():
     spray_level = await api.search_spray_levels_by_uuid(spray_levels[0].uuid)
     ceremonies = await api.get_ceremonies()
     ceremony = await api.search_ceremonies_by_uuid(ceremonies[0].uuid)
+    levelborders = await api.get_level_borders()
+    levelborder = await api.search_level_borders_by_uuid(levelborders[0].uuid)
+
 
 async def generate(generator, agent: Agent):
     image = await generator.generate(agent)
@@ -129,11 +134,11 @@ async def generator_test():
     agents = await api.get_agents()
     generator = generators.AgentImageGenerator(r"valorant_api/fonts/Valorant Font.ttf")
     tasks = []
-    for agent in agents:
-        tasks.append(asyncio.create_task(generate(generator, agent)))
-        # await generate(generator, agent)
+    # for agent in agents:
+    #     # tasks.append(asyncio.create_task(generate(generator, agent)))
+    #     await generate(generator, agent)
     # image.show()
-    await asyncio.gather(*tasks)
+    # await asyncio.gather(*tasks)
 
 
 if __name__ == "__main__":
@@ -142,9 +147,9 @@ if __name__ == "__main__":
     print("[Sync] Took", time.time() - st)
 
     st = time.time()
-    asyncio.get_event_loop().run_until_complete(Asynctest())
+    asyncio.run(Asynctest())
     print("[Async] Took", time.time() - st)
 
     st = time.time()
-    asyncio.get_event_loop().run_until_complete(generator_test())
+    asyncio.run(generator_test())
     print("[Async: Generator] Took", time.time() - st)

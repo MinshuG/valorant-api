@@ -1,51 +1,71 @@
 import atexit
 from http.client import HTTPException
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 import aiohttp
 import asyncio
 import textwrap
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-from valorant_api.agents import Agent
+from .utils import Rect, gradient_color, hex2rgb, vert_gradient
+
+if TYPE_CHECKING:
+    from ..agents import Agent
 
 
 class AgentImageGenerator:  # total mess
     font_file: str
-    resolution: tuple = (1024, 1024)
-    _blank_image: Image.Image = Image.new("RGBA", resolution, (34, 30, 40))  # (240, 91, 87)
+    resolution: tuple = (1024, 2048)
     ability_font_size: int = 25
     display_name_font_size: int = 100
 
-    def __init__(self, font_file) -> None:
+    def __init__(self, font_file, session=None) -> None:
         self.font_file = font_file
-        self.session = aiohttp.ClientSession()
+        if session is None:
+            self.session = aiohttp.ClientSession()
+            atexit.register(self.close)
+        else:
+            self.session = session
+        self._blank_image: Image.Image = Image.new("RGBA", self.resolution, (34, 30, 40))  # (240, 91, 87)
         atexit.register(self.close)
 
     def close(self):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.session.close())
+        asyncio.run(self.session.close())
 
-    async def generate(self, data: Agent) -> Image.Image:
+    async def generate(self, data: 'Agent') -> Image.Image:
         image = self._blank_image.copy()
-        if data.bust_portrait is not None:
-            portrait = await self.image_downloader(data.bust_portrait)
+        if data.background_gradient_colors not in (None, []):
+            grad_image = ImageDraw.Draw(image)
+            region = Rect(0, 0, *self.resolution)
+            vert_gradient(grad_image, region, gradient_color, tuple(hex2rgb(col) for col in data.background_gradient_colors))
+
+        if data.background is not None:
+            bg_image = await self.image_downloader(data.background)            
+            ratio = (self.resolution[1] / bg_image.size[0]) * 0.7
+            bg_image = bg_image.resize((int(bg_image.size[0]*ratio), int(bg_image.size[1]*ratio)), Image.Resampling.LANCZOS)
+            image.alpha_composite(bg_image, ((self.resolution[0]-bg_image.size[0])//2, (self.resolution[1]-bg_image.size[1])//2))
+
+        if data.full_portraitV2 is not None:
+            portrait = await self.image_downloader(data.full_portraitV2)
+            ratio = (self.resolution[1] / portrait.size[0]) * 0.95
+            portrait = portrait.resize((int(portrait.size[0]*ratio), int(portrait.size[1]*ratio)), Image.Resampling.LANCZOS)
         else:
             portrait = image.copy()
 
         # agent image
-        offset = (int((image.size[0] - portrait.size[0]) / 2 + 100), int((image.size[1] - portrait.size[1]) / 2))
+        offset = (int((image.size[0] - portrait.size[0]) / 2 + 100), int((image.size[1] - portrait.size[1]) / 2)) # center
         image.alpha_composite(portrait, offset)
 
         # blur
-        crop_amt = 840  # abilities offset from top
-        blurred = image.copy().crop((0, crop_amt, portrait.size[0], portrait.size[1])).filter(ImageFilter.GaussianBlur(5))
+        crop_amt = self.resolution[1] - 184  # abilities offset from top
+        blurred = image.copy().crop((0, crop_amt, self.resolution[0], self.resolution[1])).filter(ImageFilter.GaussianBlur(1))
         image.paste(blurred, (0, crop_amt))
 
         image = self.draw_name(image, data.display_name)
 
-        icon_offset = 50  # start offset from left
         num_abilities = len([x for x in data.abilities if x.slot != "Passive"])
+        icon_offset = -(self.resolution[0] // (num_abilities+1))  # start offset from left
         for ability in data.abilities:
             if ability.slot == "Passive":
                 continue
@@ -54,11 +74,10 @@ class AgentImageGenerator:  # total mess
                 icon = icon.resize((128, 128))
             else:
                 icon = Image.new("RGBA", (128, 128))
-
+            icon_offset += self.resolution[0] // (num_abilities)
             pos = (icon_offset, crop_amt + 10)  # crop_amt + ?? is offset from top
             image.alpha_composite(icon, pos)
             image = self.draw_ability_name(image, ability.display_name, pos)
-            icon_offset += round(1024 / num_abilities)
 
         return image
 
@@ -76,16 +95,16 @@ class AgentImageGenerator:  # total mess
         x = (x2 - x1 - w) / 2 + x1
         y = (y2 - y1 - h) / 2 + y1
         # draw.rectangle([x1, y1, x2, y2])  # bounding box
-        
+
         draw.text((x, y), "\n".join(wraped), font=font, fill=(255, 255, 255, 255), align=align)
         return image
 
     def draw_name(self, image: Image.Image, text: str):
-        image2 = Image.new("RGBA", (1024, 512))
+        image2 = Image.new("RGBA", (self.resolution[0], 512))
         draw = ImageDraw.Draw(image2)
         font = ImageFont.truetype(self.font_file, self.display_name_font_size)
         align = "left"
-        x1, y1, x2, y2 = [400, 10, 900, 125]
+        x1, y1, x2, y2 = [0, 10, self.resolution[0], 125]
         w, h = draw.textsize(text, font=font)
         x = (x2 - x1 - w) / 2 + x1
         y = (y2 - y1 - h) / 2 + y1
@@ -104,3 +123,28 @@ class AgentImageGenerator:  # total mess
             else:
                 raise HTTPException(
                     f'An error occurred while downloading a image, status code {response.status}')
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append("L:\Coding Stuff\Valorant-api")
+    import asyncio
+    from valorant_api import AsyncValorantApi, SyncValorantApi
+    import time
+
+    async def generator_test():
+        api = AsyncValorantApi(language = "fr-FR")
+        agents = await api.get_agents()
+        generator = AgentImageGenerator(r"valorant_api/fonts/Valorant Font.ttf")
+        tasks = []
+        for agent in agents:
+            await generate(generator, agent)
+        #     tasks.append(asyncio.create_task(generate(generator, agent)))
+        # await asyncio.gather(*tasks)
+
+    async def generate(generator, agent: 'Agent'):
+        image = await generator.generate(agent)
+        image.save(f"images/{agent.display_name.replace('/', '_')}_{agent.uuid}.png", "PNG") # KAY/O
+
+    st = time.time()
+    asyncio.get_event_loop().run_until_complete(generator_test())
+    print("[Async: Generator] Took", time.time() - st)

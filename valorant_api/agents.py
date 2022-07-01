@@ -66,8 +66,10 @@ class Agent:
     display_icon_small: str
     bust_portrait: str
     full_portrait: str
+    full_portraitV2: str
     kill_feed_portrait: str
     background: str
+    background_gradient_colors: List[str]
     asset_path: str
     is_full_portrait_right_facing: bool
     is_playable_character: bool
@@ -87,8 +89,10 @@ class Agent:
         self.display_icon_small = data.get("displayIconSmall")
         self.bust_portrait = data.get("bustPortrait")
         self.full_portrait = data.get("fullPortrait")
+        self.full_portraitV2 = data.get("fullPortraitV2")
         self.kill_feed_portrait = data.get("killfeedPortrait")
         self.background = data.get("background")
+        self.background_gradient_colors = data.get("backgroundGradientColors")
         self.asset_path = data.get("assetPath")
         self.is_full_portrait_right_facing = data.get("isFullPortraitRightFacing")
         self.is_playable_character = data.get("isPlayableCharacter")

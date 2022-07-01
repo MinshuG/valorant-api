@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
-import valorant_api
+from valorant_api._version import __version__
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name='valorant-api',
-    version=valorant_api.__version__,
+    version=__version__,
     packages=find_packages(),
     url='https://github.com/MinshuG/valorant-api',
     license='MIT',
